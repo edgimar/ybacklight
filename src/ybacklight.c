@@ -56,30 +56,28 @@ int brightness()
 
 int set_brightness(int value)
 {
+    if (value < 1) {
+        value = 1;
+    }
+    else
+    if (value > 100) {
+        value = 100;
+    }
+
 	int bval = (float)(max_brightness() * value) / 100 + 0.5;
 	return write_sysfs_int(BRIGHTNESS, bval);
 }
 
-int inc_brightness(int value)
+int inc_brightness(int delta)
 {
-	value = brightness() + value;
-
-	if (value > 100) {
-		value = 100;
-	}
-
-	return set_brightness(value);
+	int new_brightness = brightness() + delta;
+	return set_brightness(new_brightness);
 }
 
-int dec_brightness(int value)
+int dec_brightness(int delta)
 {
-	value = brightness() - value;
-
-	if (value < 0) {
-		value = 0;
-	}
-
-	return set_brightness(value);
+	int new_brightness = brightness() - delta;
+	return set_brightness(new_brightness);
 }
 
 int main(int argc, char *argv[])
