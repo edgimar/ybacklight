@@ -51,12 +51,12 @@ int brightness()
 {
 	int bcur = read_sysfs_int(BRIGHTNESS);
 	int bmax = max_brightness();
-	return (bcur * 100) / bmax;
+	return (float)(bcur * 100) / bmax + 0.5;
 }
 
 int set_brightness(int value)
 {
-	int bval = (max_brightness() * value) / 100;
+	int bval = (float)(max_brightness() * value) / 100 + 0.5;
 	return write_sysfs_int(BRIGHTNESS, bval);
 }
 
